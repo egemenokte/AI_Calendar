@@ -1,20 +1,32 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# QuickCal - AI Calendar Generator
 
-# Run and deploy your AI Studio app
+QuickCal is a web application that converts natural language text—such as emails, event flyers, or chat messages—into downloadable `.ics` calendar files. These files are compatible with Outlook, Apple Calendar, and Google Calendar.
 
-This contains everything you need to run your app locally.
+It leverages **Google Gemini** to intelligently extract:
+- Event Summaries
+- Locations
+- Dates & Times (with timezone inference)
+- Descriptions
+- Attendee emails
 
-View your app in AI Studio: https://ai.studio/apps/drive/1cUSdZG_wsSPu8DZ-fxa04VFW0eiyBSoe
+## Usage
 
-## Run Locally
+1. Paste your text into the input box.
+2. Click **Generate .ics**.
+3. Review the extracted details.
+4. Download the file and import it into your calendar.
 
-**Prerequisites:**  Node.js
+## Development
 
+To use this code, you must provide your own API Key.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Obtain an API Key from [Google AI Studio](https://aistudio.google.com/).
+2. Ensure `process.env.API_KEY` is available in your build environment.
+
+## Disclaimer
+
+This tool uses generative AI to interpret text. It **may contain errors** or inaccuracies, specifically regarding complex timezone calculations. Please verify all details before relying on the calendar entry.
+
+---
+
+**Vibecoded by Egemen Okte**
