@@ -1,0 +1,5 @@
+{
+  "name": "QuickCal - AI Calendar Generator",
+  "description": "Convert natural language text into downloadable Outlook/iCal (.ics) calendar files automatically.",
+  "requestFramePermissions": []
+}
