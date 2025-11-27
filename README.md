@@ -1,8 +1,5 @@
 # QuickCal - AI Calendar Generator
 
-<img width="1234" height="864" alt="image" src="https://github.com/user-attachments/assets/b5adb3c2-056d-4681-9cf7-4017a07d4106" />
-
-
 QuickCal is a web application that converts natural language text—such as emails, event flyers, or chat messages—into downloadable `.ics` calendar files. These files are compatible with Outlook, Apple Calendar, and Google Calendar.
 
 It leverages **Google Gemini** to intelligently extract:
