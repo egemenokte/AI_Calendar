@@ -38,7 +38,7 @@ const eventSchema: Schema = {
 export const parseEventFromText = async (text: string): Promise<ParseResult> => {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: `Extract calendar event details from the following text: "${text}". 
       
       Timezone Rules:
