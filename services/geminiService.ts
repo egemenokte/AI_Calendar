@@ -38,7 +38,7 @@ const eventSchema: Schema = {
 // Helper function for delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const parseEventFromText = async (text: string): Promise<ParseResult> => {
+export const parseEventFromText = async (text: string, userTimezone: string): Promise<ParseResult> => {
   const MAX_RETRIES = 3;
   let lastError: any;
 
@@ -48,11 +48,15 @@ export const parseEventFromText = async (text: string): Promise<ParseResult> => 
         model: "gemini-3-flash-preview",
         contents: `Extract calendar event details from the following text: "${text}". 
         
+        User Context:
+        - User's local timezone: ${userTimezone}
+        
         Timezone Rules:
         1. Analyze the location to determine the Time Zone (e.g., 'UMass Amherst', 'Boston', 'NYC' = Eastern Time).
-        2. If the location suggests a specific timezone, apply the correct UTC offset to the ISO 8601 dates (e.g., -05:00 or -04:00 depending on Daylight Savings).
-        3. If no location context implies a timezone, assume the user's text implies local time and use the current UTC offset or default to UTC if completely ambiguous.
-        4. Ensure startDate and endDate are full ISO 8601 strings including the offset.
+        2. If the location suggests a specific timezone, apply the correct UTC offset to the ISO 8601 dates.
+        3. If no location context implies a timezone, assume the event is in the user's local timezone (${userTimezone}) and apply the corresponding offset.
+        4. If the text explicitly states a timezone (e.g. "CST", "GMT"), prioritize that over the user's local timezone.
+        5. Ensure startDate and endDate are full ISO 8601 strings including the offset.
         `,
         config: {
           responseMimeType: "application/json",

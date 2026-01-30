@@ -15,6 +15,9 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [parsedEvent, setParsedEvent] = useState<CalendarEvent | null>(null);
+  
+  // Detect user's timezone from browser
+  const [userTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   const handleGenerate = async () => {
     if (!inputText.trim()) return;
@@ -24,7 +27,7 @@ const App: React.FC = () => {
     setParsedEvent(null);
 
     try {
-      const result = await parseEventFromText(inputText);
+      const result = await parseEventFromText(inputText, userTimezone);
       if (result.success && result.event) {
         setParsedEvent(result.event);
       } else {
@@ -82,13 +85,28 @@ const App: React.FC = () => {
         </div>
 
         {!parsedEvent ? (
-          <div className="w-full max-w-2xl bg-white rounded-xl shadow-xl border border-gray-100 p-2 transform transition-all">
+          <div className="w-full max-w-2xl bg-white rounded-xl shadow-xl border border-gray-100 transform transition-all overflow-hidden">
+            
+            {/* Timezone Indicator Header */}
+            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+               <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Input</span>
+               </div>
+               <div className="flex items-center text-xs text-gray-600 bg-white px-3 py-1.5 rounded-md border border-gray-200 shadow-sm" title="This is your detected timezone">
+                  <svg className="w-3.5 h-3.5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>
+                    <span className="text-gray-400 mr-1">Your Timezone:</span>
+                    <span className="font-semibold text-gray-800">{userTimezone}</span>
+                  </span>
+               </div>
+            </div>
+
             <div className="relative">
               <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Paste event details here... e.g., 'Team lunch at Joe's Pizza, Friday at 1pm'"
-                className="w-full h-48 p-4 text-gray-700 bg-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-lg placeholder-gray-300"
+                className="w-full h-48 p-4 text-gray-700 bg-white resize-none focus:outline-none focus:bg-indigo-50/10 text-lg placeholder-gray-300 border-none"
               />
               
               {/* Helper actions inside the box area */}
@@ -102,15 +120,15 @@ const App: React.FC = () => {
               </div>
             </div>
             
-            <div className="bg-gray-50 p-3 rounded-b-lg border-t border-gray-100 flex justify-between items-center">
-              <span className="text-xs text-gray-400 pl-2">
-                Powered by Magic (or Gemini)
-              </span>
+            <div className="bg-gray-50 p-3 rounded-b-lg border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="text-xs text-gray-400 pl-2 leading-tight max-w-xs text-center sm:text-left">
+                If your timezone is different, please explicitly state it in the text.
+              </div>
               <button
                 onClick={handleGenerate}
                 disabled={isLoading || !inputText.trim()}
                 className={`
-                  flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-white shadow-md transition-all
+                  flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-white shadow-md transition-all w-full sm:w-auto justify-center
                   ${isLoading || !inputText.trim() 
                     ? 'bg-gray-300 cursor-not-allowed' 
                     : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0'}
@@ -162,7 +180,7 @@ const App: React.FC = () => {
       <footer className="bg-white border-t border-gray-200 py-8 mt-auto">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <p className="text-gray-400 text-sm">
-            &copy; 2025 QuickCalendar. Vibecoded by Egemen Okte
+            QuickCalendar. Vibecoded by Egemen Okte
           </p>
         </div>
       </footer>
