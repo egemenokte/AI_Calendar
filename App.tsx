@@ -80,7 +80,7 @@ const App: React.FC = () => {
             Turn text into <span className="text-indigo-600">Calendar Invites</span>
           </h2>
           <p className="text-lg text-gray-600">
-            Paste an email, a flyer text, or a message. We'll extract the details, figure out the timezone, and give you an .ics file for Outlook, Google Calendar, or Apple Calendar.
+            Paste an email, a flyer text, or a message. We'll extract the details and give you an .ics file for Outlook, Google Calendar, or Apple Calendar.
           </p>
         </div>
 
@@ -105,7 +105,7 @@ const App: React.FC = () => {
               <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Paste event details here... e.g., 'Team lunch at Joe's Pizza, Friday at 1pm'"
+                placeholder="Paste event details here... e.g., 'Team lunch at Joe's Pizza, Friday at 1pm ET'"
                 className="w-full h-48 p-4 text-gray-700 bg-white resize-none focus:outline-none focus:bg-indigo-50/10 text-lg placeholder-gray-300 border-none"
               />
               
